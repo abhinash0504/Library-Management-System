@@ -1,0 +1,10 @@
+*.exe
+*.out
+*.o
+*.class
+
+#Ignore logs
+*.log
+
+# Ignore VS Code settings
+.vscode/
