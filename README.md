@@ -1,42 +1,25 @@
-# Library Management System in C++
+# Library Management System (Java)
 
-A simple **console-based Library Management System** built using **C++ and DSA concepts**.  
-This project demonstrates:
-- Use of arrays and structures
-- Menu-driven programs
-- Add, display, search, and delete books
-- Basic library management using C++
-
----
+This is a simple **Library Management System** implemented in Java.
 
 ## Features
-✅ Add a book  
-✅ Display all books  
-✅ Search a book by ID  
-✅ Delete a book record  
-✅ Simple menu-driven console application  
-
----
+- Add and view books
+- Add and view users
+- Issue and return books
+- Command-line menu system
 
 ## How to Run
-1. Clone this repository:
+1. Compile the code:
    ```bash
-   git clone https://github.com/<your-username>/Library-Management-System.git
-   cd Library-Management-System/src
+   javac LibraryManagementSystem.java
    ```
-2. Compile the code:
+2. Run the program:
    ```bash
-   g++ library.cpp -o library
-   ```
-3. Run the application:
-   ```bash
-   ./library
+   java LibraryManagementSystem
    ```
 
----
-
-## Skills Highlighted
-- C++ Programming
-- Data Structures (arrays, search, delete)
-- Menu-driven Application Development
-- Problem Solving
+## Skills Demonstrated
+- Java programming
+- OOP concepts (Classes, Objects)
+- Collections (`ArrayList`, `List`)
+- Console-based application design
