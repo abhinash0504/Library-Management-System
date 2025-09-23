@@ -1,10 +1,13 @@
-*.exe
-*.out
-*.o
+# Compiled class files
 *.class
 
-#Ignore logs
+# Log file
 *.log
 
-# Ignore VS Code settings
-.vscode/
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs
+hs_err_pid*
