@@ -1,98 +1,171 @@
-#include <iostream>
-#include <string>
-using namespace std;
+import java.util.*;
 
-struct Book {
-    int id;
-    string title;
-    string author;
-};
+class Book {
+    private int id;
+    private String title;
+    private String author;
+    private boolean isIssued;
 
-Book library[100]; // Array to store books
-int countBooks = 0;
+    public Book(int id, String title, String author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.isIssued = false;
+    }
 
-// Add Book
-void addBook() {
-    cout << "Enter Book ID: ";
-    cin >> library[countBooks].id;
-    cout << "Enter Book Title: ";
-    cin.ignore();
-    getline(cin, library[countBooks].title);
-    cout << "Enter Author Name: ";
-    getline(cin, library[countBooks].author);
-    countBooks++;
-    cout << "\u2705 Book added successfully!\n\n";
+    public int getId() { return id; }
+    public String getTitle() { return title; }
+    public String getAuthor() { return author; }
+    public boolean isIssued() { return isIssued; }
+
+    public void issueBook() { this.isIssued = true; }
+    public void returnBook() { this.isIssued = false; }
+
+    @Override
+    public String toString() {
+        return id + " | " + title + " | " + author + (isIssued ? " (Issued)" : " (Available)");
+    }
 }
 
-// Display All Books
-void displayBooks() {
-    if (countBooks == 0) {
-        cout << "No books found!\n\n";
-        return;
+class User {
+    private int id;
+    private String name;
+
+    public User(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
-    for (int i = 0; i < countBooks; i++) {
-        cout << "ID: " << library[i].id
-             << " | Title: " << library[i].title
-             << " | Author: " << library[i].author << endl;
+
+    public int getId() { return id; }
+    public String getName() { return name; }
+
+    @Override
+    public String toString() {
+        return id + " | " + name;
     }
-    cout << endl;
 }
 
-// Search Book
-void searchBook() {
-    int id;
-    cout << "Enter Book ID to search: ";
-    cin >> id;
-    for (int i = 0; i < countBooks; i++) {
-        if (library[i].id == id) {
-            cout << "\u2705 Found: ID " << library[i].id
-                 << " | Title: " << library[i].title
-                 << " | Author: " << library[i].author << endl << endl;
-            return;
-        }
-    }
-    cout << "\u274C Book not found!\n\n";
-}
+class Library {
+    private List<Book> books;
+    private List<User> users;
 
-// Delete Book
-void deleteBook() {
-    int id;
-    cout << "Enter Book ID to delete: ";
-    cin >> id;
-    for (int i = 0; i < countBooks; i++) {
-        if (library[i].id == id) {
-            for (int j = i; j < countBooks - 1; j++) {
-                library[j] = library[j + 1];
+    public Library() {
+        this.books = new ArrayList<>();
+        this.users = new ArrayList<>();
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    public void issueBook(int bookId) {
+        for (Book book : books) {
+            if (book.getId() == bookId && !book.isIssued()) {
+                book.issueBook();
+                System.out.println("Book issued successfully: " + book.getTitle());
+                return;
             }
-            countBooks--;
-            cout << "\u2705 Book deleted successfully!\n\n";
-            return;
+        }
+        System.out.println("Book not available.");
+    }
+
+    public void returnBook(int bookId) {
+        for (Book book : books) {
+            if (book.getId() == bookId && book.isIssued()) {
+                book.returnBook();
+                System.out.println("Book returned successfully: " + book.getTitle());
+                return;
+            }
+        }
+        System.out.println("Invalid return request.");
+    }
+
+    public void showBooks() {
+        System.out.println("\nBooks in Library:");
+        for (Book book : books) {
+            System.out.println(book);
         }
     }
-    cout << "\u274C Book not found!\n\n";
+
+    public void showUsers() {
+        System.out.println("\nRegistered Users:");
+        for (User user : users) {
+            System.out.println(user);
+        }
+    }
 }
 
-int main() {
-    int choice;
-    do {
-        cout << "====== Library Management System ======\n";
-        cout << "1. Add Book\n";
-        cout << "2. Display All Books\n";
-        cout << "3. Search Book\n";
-        cout << "4. Delete Book\n";
-        cout << "5. Exit\n";
-        cout << "Enter choice: ";
-        cin >> choice;
+public class LibraryManagementSystem {
+    public static void main(String[] args) {
+        Library library = new Library();
+        Scanner sc = new Scanner(System.in);
 
-        switch (choice) {
-            case 1: addBook(); break;
-            case 2: displayBooks(); break;
-            case 3: searchBook(); break;
-            case 4: deleteBook(); break;
-            case 5: cout << "Exiting...\n"; break;
-            default: cout << "Invalid choice!\n\n";
+        // Preload some data
+        library.addBook(new Book(1, "The C++ Programming Language", "Bjarne Stroustrup"));
+        library.addBook(new Book(2, "Effective Java", "Joshua Bloch"));
+        library.addUser(new User(1, "Alice"));
+        library.addUser(new User(2, "Bob"));
+
+        while (true) {
+            System.out.println("\n--- Library Management System ---");
+            System.out.println("1. Show Books");
+            System.out.println("2. Show Users");
+            System.out.println("3. Add Book");
+            System.out.println("4. Add User");
+            System.out.println("5. Issue Book");
+            System.out.println("6. Return Book");
+            System.out.println("7. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    library.showBooks();
+                    break;
+                case 2:
+                    library.showUsers();
+                    break;
+                case 3:
+                    System.out.print("Enter Book ID: ");
+                    int bookId = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Enter Book Title: ");
+                    String title = sc.nextLine();
+                    System.out.print("Enter Author: ");
+                    String author = sc.nextLine();
+                    library.addBook(new Book(bookId, title, author));
+                    break;
+                case 4:
+                    System.out.print("Enter User ID: ");
+                    int userId = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Enter User Name: ");
+                    String name = sc.nextLine();
+                    library.addUser(new User(userId, name));
+                    break;
+                case 5:
+                    System.out.print("Enter Book ID to issue: ");
+                    int issueId = sc.nextInt();
+                    library.issueBook(issueId);
+                    break;
+                case 6:
+                    System.out.print("Enter Book ID to return: ");
+                    int returnId = sc.nextInt();
+                    library.returnBook(returnId);
+                    break;
+                case 7:
+                    System.out.println("Exiting...");
+                    sc.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice.");
+            }
         }
-    } while (choice != 5);
-
-    return 0;
+    }
 }
